@@ -1,4 +1,4 @@
-package spring.api.clinic_management;
+package com.khanh.clinic_management;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
