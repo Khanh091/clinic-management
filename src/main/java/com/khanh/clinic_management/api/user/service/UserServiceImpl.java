@@ -1,5 +1,6 @@
 package com.khanh.clinic_management.api.user.service;
 
+import com.khanh.clinic_management.api.user.dto.request.UserUpdateRequest;
 import com.khanh.clinic_management.api.user.dto.response.UserResponse;
 import com.khanh.clinic_management.api.user.entity.User;
 import com.khanh.clinic_management.api.user.repository.UserRepository;
@@ -43,6 +44,23 @@ public class UserServiceImpl implements UserService {
             }
         }
         return lst;
+    }
+
+    @Override
+    public UserResponse updateUser(int id, UserUpdateRequest request) {
+        User user = repo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setName(request.getName());
+        user.setPhone(request.getPhone());
+        user.setAvatar(request.getAvatar());
+        repo.save(user);
+        return toUserResponse(user);
+    }
+
+    @Override
+    public UserResponse deleteUser(int id) {
+        User user = repo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        repo.delete(user);
+        return toUserResponse(user);
     }
 
 }

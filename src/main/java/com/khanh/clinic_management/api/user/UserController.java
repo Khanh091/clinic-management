@@ -1,5 +1,6 @@
 package com.khanh.clinic_management.api.user;
 
+import com.khanh.clinic_management.api.user.dto.request.UserUpdateRequest;
 import com.khanh.clinic_management.api.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,14 @@ public class UserController {
     @GetMapping("/search")
     public ResponseEntity<?> searchUsers(@RequestParam(required = false, defaultValue = "") String keyword) {
         return ResponseEntity.ok(userService.searchUser(keyword));
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody UserUpdateRequest request) {
+        return ResponseEntity.ok(userService.updateUser(id,request));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
+        return ResponseEntity.ok(userService.deleteUser(id));
     }
 
 }
