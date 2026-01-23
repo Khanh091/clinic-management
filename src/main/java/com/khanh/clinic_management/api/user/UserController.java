@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static com.khanh.clinic_management.api.user.mapper.UserMapper.toUserResponse;
+
 @RestController
 @RequestMapping("/api/users")
 @AllArgsConstructor
@@ -23,9 +25,9 @@ public class UserController {
     public ResponseEntity<?> createUser() {
         return ResponseEntity.ok("Create user successfully");
     }
-    @PutMapping("/{id}" )
-    public ResponseEntity<?> updateUser(@PathVariable Long id) {
-        return ResponseEntity.ok("Update user successfully");
+    @GetMapping("/{id}" )
+    public ResponseEntity<?> getUserById(@PathVariable Integer id) {
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
 }
