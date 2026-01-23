@@ -30,7 +30,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserById(id));
     }
     @GetMapping("/search")
-    public ResponseEntity<?> searchUsers(@RequestParam String keyword) {
+    public ResponseEntity<?> searchUsers(@RequestParam(required = false, defaultValue = "") String keyword) {
         return ResponseEntity.ok(userService.searchUser(keyword));
     }
 
