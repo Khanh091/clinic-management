@@ -22,5 +22,6 @@ public class User {
     private String avatar;
     @Column(nullable = false)
     private String password;
+    private String role;
 
 }

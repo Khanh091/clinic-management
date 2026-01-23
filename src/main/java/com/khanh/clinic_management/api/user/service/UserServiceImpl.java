@@ -4,6 +4,7 @@ import com.khanh.clinic_management.api.user.dto.request.UserUpdateRequest;
 import com.khanh.clinic_management.api.user.dto.response.UserResponse;
 import com.khanh.clinic_management.api.user.entity.User;
 import com.khanh.clinic_management.api.user.repository.UserRepository;
+import com.khanh.clinic_management.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse getUserById(int id) {
-        User user = repo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = repo.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
         return toUserResponse(user) ;
     }
 

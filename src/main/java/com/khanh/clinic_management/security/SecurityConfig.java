@@ -1,4 +1,4 @@
-package com.khanh.clinic_management.config;
+package com.khanh.clinic_management.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

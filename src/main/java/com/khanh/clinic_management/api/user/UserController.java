@@ -2,6 +2,7 @@ package com.khanh.clinic_management.api.user;
 
 import com.khanh.clinic_management.api.user.dto.request.UserUpdateRequest;
 import com.khanh.clinic_management.api.user.service.UserService;
+import com.khanh.clinic_management.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ public class UserController {
     @GetMapping("/{id}" )
     public ResponseEntity<?> getUserById(@PathVariable Integer id) {
         return ResponseEntity.ok(userService.getUserById(id));
+
     }
     @GetMapping("/search")
     public ResponseEntity<?> searchUsers(@RequestParam(required = false, defaultValue = "") String keyword) {
@@ -42,5 +44,6 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
+
 
 }
