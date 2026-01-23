@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface UserService {
     public List<UserResponse> getAllUsers();
     public UserResponse getUserById(int id);
+    public List<UserResponse> searchUser(String name);
 }

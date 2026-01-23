@@ -29,5 +29,9 @@ public class UserController {
     public ResponseEntity<?> getUserById(@PathVariable Integer id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
+    @GetMapping("/search")
+    public ResponseEntity<?> searchUsers(@RequestParam String keyword) {
+        return ResponseEntity.ok(userService.searchUser(keyword));
+    }
 
 }

@@ -33,4 +33,16 @@ public class UserServiceImpl implements UserService {
         return toUserResponse(user) ;
     }
 
+    @Override
+    public List<UserResponse> searchUser(String name) {
+        List<UserResponse> lst = new ArrayList<>();
+        List<User> users = repo.findAll();
+        for(User user : users){
+            if(user.getName().toLowerCase().contains(name.toLowerCase())){
+                lst.add(toUserResponse(user));
+            }
+        }
+        return lst;
+    }
+
 }
