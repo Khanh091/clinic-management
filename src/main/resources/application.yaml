@@ -24,3 +24,8 @@ logging:
     root: INFO
     org.springframework.web: DEBUG
     com.clinic.management: DEBUG
+
+jwt:
+  secret: clinic-management-secret-key-for-jwt-token-generation-minimum-256-bits-required-for-security
+  expiration: 3600000  # 1 hour in milliseconds
+  refresh-expiration: 86400000  # 24 hours in milliseconds
