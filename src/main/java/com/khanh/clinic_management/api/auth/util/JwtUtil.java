@@ -10,6 +10,7 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -24,6 +25,11 @@ public class JwtUtil {
 
     @Value("${jwt.refresh-expiration:86400000}") //24 hours default
     private Long refreshExpiration;
+    public String generateToken(String email, List<String> roles, Long expirationTime) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("roles", roles);
+        return createToken(claims, email, expirationTime);
+    }
 
     private SecretKey getSigningKey() {
         byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
@@ -40,9 +46,21 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    public String generateToken(String email, String role) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", role);
+        return createToken(claims, email, expiration);
+    }
+
     public String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, email, expiration);
+    }
+
+    public String generateRefreshToken(String email, String role) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", role);
+        return createToken(claims, email, refreshExpiration);
     }
 
     public String generateRefreshToken(String email) {
@@ -86,7 +104,22 @@ public class JwtUtil {
     }
 
     public Boolean validateToken(String token, String email) {
-        final String tokenEmail = extractEmail(token);
-        return (tokenEmail.equals(email) && !isTokenExpired(token));
+        try {
+            final String tokenEmail = extractEmail(token);
+            return (tokenEmail.equals(email) && !isTokenExpired(token));
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public String extractRole(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+            Object roleObj = claims.get("role");
+            return roleObj != null ? roleObj.toString() : "USER";
+        } catch (Exception e) {
+            return "USER";
+        }
     }
 }

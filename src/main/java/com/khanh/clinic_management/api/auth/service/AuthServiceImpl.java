@@ -40,14 +40,15 @@ public class AuthServiceImpl implements AuthService {
         User savedUser = userRepository.save(user);
 
         //tạo JWT token
-        String accessToken = jwtUtil.generateToken(savedUser.getEmail());
-        String refreshToken = jwtUtil.generateRefreshToken(savedUser.getEmail());
+        String accessToken = jwtUtil.generateToken(savedUser.getEmail(), savedUser.getRole());
+        String refreshToken = jwtUtil.generateRefreshToken(savedUser.getEmail(), savedUser.getRole());
 
         return new AuthResponse(
             accessToken,
             refreshToken,
             "Bearer",
-            60 // 1p
+            60, // 1p
+            savedUser.getRole()
         );
     }
 
@@ -60,14 +61,15 @@ public class AuthServiceImpl implements AuthService {
             throw new UnauthorizedException("Invalid email or password");
         }
 
-        String accessToken = jwtUtil.generateToken(user.getEmail());
-        String refreshToken = jwtUtil.generateRefreshToken(user.getEmail());
+        String accessToken = jwtUtil.generateToken(user.getEmail(), user.getRole());
+        String refreshToken = jwtUtil.generateRefreshToken(user.getEmail(), user.getRole());
 
         return new AuthResponse(
             accessToken,
             refreshToken,
             "Bearer",
-            60 //1h
+            60, //1h
+            user.getRole()
         );
     }
 
@@ -78,14 +80,16 @@ public class AuthServiceImpl implements AuthService {
         }
 
         String email = jwtUtil.extractEmail(refreshToken);
-        String newAccessToken = jwtUtil.generateToken(email);
-        String newRefreshToken = jwtUtil.generateRefreshToken(email);
+        String role = jwtUtil.extractRole(refreshToken);
+        String newAccessToken = jwtUtil.generateToken(email, role);
+        String newRefreshToken = jwtUtil.generateRefreshToken(email, role);
 
         return new AuthResponse(
             newAccessToken,
             newRefreshToken,
             "Bearer",
-            60 //1p
+            60, //1p
+            role
         );
     }
 }
