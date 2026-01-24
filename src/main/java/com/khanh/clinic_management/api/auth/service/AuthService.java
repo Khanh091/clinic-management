@@ -7,4 +7,5 @@ import com.khanh.clinic_management.api.auth.dto.response.AuthResponse;
 public interface AuthService {
     AuthResponse register(RegisterRequest request);
     AuthResponse login(LoginRequest request);
+    AuthResponse refreshToken(String refreshToken);
 }

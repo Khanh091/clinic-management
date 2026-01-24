@@ -47,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
             accessToken,
             refreshToken,
             "Bearer",
-            3600 // 1 hour
+            60 // 1p
         );
     }
 
@@ -67,7 +67,25 @@ public class AuthServiceImpl implements AuthService {
             accessToken,
             refreshToken,
             "Bearer",
-            3600 //1h
+            60 //1h
+        );
+    }
+
+    @Override
+    public AuthResponse refreshToken(String refreshToken) {
+        if (!jwtUtil.isTokenExpired(refreshToken)) {
+            throw new UnauthorizedException("Token is not expired yet");
+        }
+
+        String email = jwtUtil.extractEmail(refreshToken);
+        String newAccessToken = jwtUtil.generateToken(email);
+        String newRefreshToken = jwtUtil.generateRefreshToken(email);
+
+        return new AuthResponse(
+            newAccessToken,
+            newRefreshToken,
+            "Bearer",
+            60 //1p
         );
     }
 }
